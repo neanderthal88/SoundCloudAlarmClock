@@ -1,4 +1,4 @@
-package com.example.ryan.soundcloudalarmclock;
+package com.example.loginscreen;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

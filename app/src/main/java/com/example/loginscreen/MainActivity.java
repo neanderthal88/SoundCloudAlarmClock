@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.voidplus.soundcloud.*;
 
 public class MainActivity extends Activity {
 
@@ -26,6 +27,11 @@ public class MainActivity extends Activity {
         attempts = (TextView)findViewById(R.id.textView5);
         attempts.setText(Integer.toString(counter));
         login = (Button)findViewById(R.id.button1);
+
+        SoundCloud soundcloud = new SoundCloud(
+                "7b0837389ef02bedd507d700b962f5a2", /* appClientId */
+                "e81408f1564aab7c90af0a65d99e6d1e" /* appClientSecret */
+        );
     }
 
     public void login(View view){

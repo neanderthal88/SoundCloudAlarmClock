@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.voidplus.soundcloud.*;
+//import de.voidplus.soundcloud.*;
+import com.soundcloud.api.*;
+import com.google.gson.*;
 
 public class MainActivity extends Activity {
 
@@ -28,10 +30,15 @@ public class MainActivity extends Activity {
         attempts.setText(Integer.toString(counter));
         login = (Button)findViewById(R.id.button1);
 
-        SoundCloud soundcloud = new SoundCloud(
-                "7b0837389ef02bedd507d700b962f5a2", /* appClientId */
-                "e81408f1564aab7c90af0a65d99e6d1e" /* appClientSecret */
-        );
+        //SoundCloud soundcloud = new SoundCloud(
+        //        "7b0837389ef02bedd507d700b962f5a2", /* appClientId */
+        //        "e81408f1564aab7c90af0a65d99e6d1e" /* appClientSecret */
+        //);
+
+        ApiWrapper wrapper = new ApiWrapper(
+                "7b0837389ef02bedd507d700b962f5a2",
+                "e81408f1564aab7c90af0a65d99e6d1e",
+                null, null);
     }
 
     public void login(View view){

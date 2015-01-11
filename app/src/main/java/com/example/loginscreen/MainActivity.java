@@ -1,6 +1,7 @@
 package com.example.loginscreen;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.AsyncTask;
@@ -15,12 +16,14 @@ import com.soundcloud.api.*;
 import com.google.gson.*;
 
 public class MainActivity extends Activity {
-
+    public final static String EXTRA_MESSAGE = "com.example.loginscreen.MESSAGE";
     private EditText  username=null;
     private EditText  password=null;
     private TextView attempts;
     private Button login;
     int counter = 3;
+    boolean authorized = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,15 @@ public class MainActivity extends Activity {
 
         authUser task = new authUser();
         task.execute(new String[]{username.getText().toString(), password.getText().toString()});
+        System.out.println("authorized: " + authorized);
+        if(authorized) {
+            Intent loggedin = new Intent(this, HubActivity.class);
+            String message = "this is the string passed the new activity";
+            loggedin.putExtra(EXTRA_MESSAGE, message);
+            startActivity(loggedin);
+        }
+
+
 
        /* if(username.getText().toString().equals("admin") &&
                 password.getText().toString().equals("admin")){
@@ -57,27 +69,30 @@ public class MainActivity extends Activity {
 
     }
 
-    private class authUser extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... params) {
-            boolean debug = false;
+    private class authUser extends AsyncTask<String, Void, Boolean> {
+        protected Boolean doInBackground(String... params) {
+            boolean authd = false;
             try {
-                System.out.println("hello");
                 ApiWrapper soundcloud = new ApiWrapper(
                         "7b0837389ef02bedd507d700b962f5a2",
                         "e81408f1564aab7c90af0a65d99e6d1e",
                         null, null
                 );
-                System.out.println("hello2");
                 Token token = soundcloud.login(
                         params[0],
                         params[1]
                 );
-                debug = token.valid();
-                System.out.println("debug: " +debug);
+                authd = token.valid();
+                System.out.println("logged in: " +authd);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
-            return "return-tmp";
+
+            return authd;
+        }
+        protected void onPostExecute (Boolean result){
+            // this is run on the main (UI) thread, after doInBackground returns
+            authorized = result;
         }
     }
 
